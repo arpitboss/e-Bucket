@@ -4,6 +4,8 @@ import 'package:t_store/utils/constants/colors.dart';
 import 'package:t_store/utils/constants/text_strings.dart';
 import 'package:t_store/utils/theme/theme.dart';
 
+import 'bindings/general_bindings.dart';
+
 class App extends StatelessWidget {
   const App({super.key});
 
@@ -15,7 +17,7 @@ class App extends StatelessWidget {
       theme: TAppTheme.lightTheme,
       darkTheme: TAppTheme.darkTheme,
       debugShowCheckedModeBanner: false,
-      // initialBinding: GeneralBindings(),
+      initialBinding: GeneralBindings(),
       home: const Scaffold(
           backgroundColor: TColors.primary,
           body: Center(child: CircularProgressIndicator(color: Colors.white))),
