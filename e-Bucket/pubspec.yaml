@@ -14,13 +14,13 @@ dependencies:
     sdk: flutter
 
   # Utility Packages
-  http: ^1.1.0
+  http: ^1.2.0
   intl: ^0.19.0
   logger: ^2.0.2+1
-  lottie: ^2.7.0
+  lottie: ^3.0.0
   url_launcher: ^6.2.4
   connectivity_plus: ^5.0.2
-  flutter_native_splash: ^2.3.1
+  flutter_native_splash: ^2.3.10
   smooth_page_indicator: ^1.1.0
 
   # Icons
@@ -38,10 +38,11 @@ dependencies:
   capped_progress_indicator: ^0.0.2
 
   # Firebase
-  firebase_core: ^2.24.2
-  firebase_storage: ^11.6.0
-  firebase_auth: ^4.16.0
-  cloud_firestore: ^4.14.0
+  firebase_core: ^2.25.4
+  firebase_storage: ^11.6.5
+  firebase_auth: ^4.17.4
+  cloud_firestore: ^4.15.4
+  google_sign_in: ^6.2.1
 
 
 
