@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:t_store/features/personalization/controllers/user_controller.dart';
 
 import '../../../../../common/widgets/appbar/appbar.dart';
 import '../../../../../common/widgets/products/cart/cart_menu_icon.dart';
@@ -12,6 +14,7 @@ class HomeAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(UserController());
     return ReusableAppBar(
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -23,12 +26,14 @@ class HomeAppBar extends StatelessWidget {
                 .labelMedium!
                 .apply(color: TColors.white),
           ),
-          Text(
-            TTexts.homeAppbarSubTitle,
-            style: Theme.of(context)
-                .textTheme
-                .headlineSmall!
-                .apply(color: TColors.white),
+          Obx(
+            () => Text(
+              controller.user.value.fullName,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineSmall!
+                  .apply(color: TColors.white),
+            ),
           ),
         ],
       ),
