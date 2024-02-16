@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:t_store/data/repositories/authentication/authentication_repository.dart';
 import 'package:t_store/data/repositories/user/user_modal.dart';
 
@@ -87,6 +91,23 @@ class UserRepository extends GetxController {
   Future<void> deleteUserDetails(String userID) async {
     try {
       await _db.collection("Users").doc(userID).delete();
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const TFormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
+  Future<String> uploadImage(String path, XFile image) async {
+    try {
+      final ref = FirebaseStorage.instance.ref(path).child(image.name);
+      await ref.putFile(File(image.path));
+      final url = await ref.getDownloadURL();
+      return url;
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
     } on FormatException catch (_) {

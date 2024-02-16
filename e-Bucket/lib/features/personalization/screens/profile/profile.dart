@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:t_store/common/widgets/appbar/appbar.dart';
 import 'package:t_store/common/widgets/images/circular_image.dart';
+import 'package:t_store/common/widgets/loaders/shimmer.dart';
 import 'package:t_store/common/widgets/texts/section_heading.dart';
 import 'package:t_store/features/personalization/controllers/user_controller.dart';
 import 'package:t_store/features/personalization/screens/profile/widgets/profile_menu.dart';
@@ -30,13 +31,21 @@ class ProfileScreen extends StatelessWidget {
               width: double.infinity,
               child: Column(
                 children: [
-                  const CircularImage(
-                    image: TImages.user,
-                    width: 80,
-                    height: 80,
-                  ),
+                  Obx(() {
+                    final networkImage = controller.user.value.profilePicture;
+                    final image =
+                        networkImage.isNotEmpty ? networkImage : TImages.user;
+                    return controller.imageUploading.value
+                        ? const ShimmerEffect(width: 80, height: 80)
+                        : CircularImage(
+                            image: image,
+                            width: 80,
+                            height: 80,
+                            isNetworkImage: networkImage.isNotEmpty,
+                          );
+                  }),
                   TextButton(
-                    onPressed: () {},
+                    onPressed: () => controller.uploadUserProfilePicture(),
                     child: const Text('Change Profile Icon'),
                   )
                 ],
