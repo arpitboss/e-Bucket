@@ -5,6 +5,8 @@ import 'package:t_store/common/widgets/appbar/appbar.dart';
 import 'package:t_store/common/widgets/custom_shapes/container/primary_header_container.dart';
 import 'package:t_store/common/widgets/list_tiles/settings_menu_tile.dart';
 import 'package:t_store/common/widgets/texts/section_heading.dart';
+import 'package:t_store/data/dummy/dummy_data.dart';
+import 'package:t_store/data/repositories/categories/categories_repository.dart';
 import 'package:t_store/features/personalization/screens/address/address.dart';
 import 'package:t_store/features/personalization/screens/profile/profile.dart';
 import 'package:t_store/features/shop/screens/order/order.dart';
@@ -18,6 +20,7 @@ class SettingsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final categoryRepo = CategoryRepository();
     return Scaffold(
       body: SingleChildScrollView(
         child: Column(
@@ -93,7 +96,10 @@ class SettingsScreen extends StatelessWidget {
                     headingText: 'App Settings',
                   ),
                   const SizedBox(height: TSizes.spaceBtwItems),
-                  const SettingsMenu(
+                  SettingsMenu(
+                      onTap: () {
+                        categoryRepo.uploadDummyData(DummyData.categories);
+                      },
                       icon: Iconsax.document_upload,
                       title: 'Load Data',
                       subtitle: 'Upload Data to your Cloud Firebase'),

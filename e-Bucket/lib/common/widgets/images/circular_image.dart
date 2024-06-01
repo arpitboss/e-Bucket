@@ -1,6 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:t_store/common/widgets/loaders/shimmer.dart';
+import 'package:t_store/common/widgets/shimmers/shimmer.dart';
 import 'package:t_store/utils/helpers/helper_functions.dart';
 
 import '../../../utils/constants/colors.dart';

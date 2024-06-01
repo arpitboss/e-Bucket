@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:t_store/common/widgets/images/circular_image.dart';
+
 import '../../../utils/constants/colors.dart';
 import '../../../utils/constants/sizes.dart';
 import '../../../utils/helpers/helper_functions.dart';
@@ -11,11 +13,14 @@ class ImageText extends StatelessWidget {
     this.textColor = TColors.white,
     this.bgColor,
     this.onTap,
+    this.isNetworkImage = true,
   });
 
   final String image, title;
   final Color textColor;
   final Color? bgColor;
+
+  final bool isNetworkImage;
   final void Function()? onTap;
 
   @override
@@ -36,10 +41,13 @@ class ImageText extends StatelessWidget {
                 color: bgColor ?? (dark ? TColors.black : TColors.white),
               ),
               child: Center(
-                child: Image(
-                  image: AssetImage(image),
-                  fit: BoxFit.cover,
-                  color: dark ? TColors.light : TColors.dark,
+                child: CircularImage(
+                  image: image,
+                  fit: BoxFit.fitWidth,
+                  padding: TSizes.sm * 1.4,
+                  isNetworkImage: isNetworkImage,
+                  backgroundColor: bgColor,
+                  overlayColor: dark ? TColors.light : TColors.dark,
                 ),
               ),
             ),
