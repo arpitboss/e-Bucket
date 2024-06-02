@@ -1,22 +1,25 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:t_store/features/shop/models/category_model.dart';
+import 'package:t_store/features/shop/models/banner_model.dart';
 
 import '../../../utils/exceptions/firebase_exceptions.dart';
 import '../../../utils/exceptions/platform_exceptions.dart';
 import '../../services/firebase_storage_service.dart';
 
-class CategoryRepository extends GetxController {
-  static CategoryRepository get instance => Get.find();
+class BannerRepository extends GetxController {
+  static BannerRepository get instance => Get.find();
 
   final _db = FirebaseFirestore.instance;
 
-  Future<List<CategoryModel>> getAllCategories() async {
+  Future<List<BannerModel>> getAllBanners() async {
     try {
-      final snapshot = await _db.collection('Categories').get();
-      final list = snapshot.docs
-          .map((document) => CategoryModel.fromSnapshot(document))
+      final result = await _db
+          .collection('Banners')
+          .where('Active', isEqualTo: true)
+          .get();
+      final list = result.docs
+          .map((document) => BannerModel.fromSnapshot(document))
           .toList();
       return list;
     } on FirebaseException catch (e) {
@@ -28,26 +31,23 @@ class CategoryRepository extends GetxController {
     }
   }
 
-  /// Upload Categories to the Cloud Firebase
-  Future<void> uploadDummyCategories(List<CategoryModel> categories) async {
+  /// Upload Banners to the Cloud Firebase
+  Future<void> uploadDummyBanners(List<BannerModel> banners) async {
     try {
-// Upload all the Categories along with their Images
+// Upload all the Banners along with their Images
       final storage = Get.put(TFirebaseStorageService());
 
-// Loop through each category
-      for (var category in categories) {
+// Loop through each banner
+      for (var banner in banners) {
 // Get ImageData link from the local assets
-        final file = await storage.getImageDataFromAssets(category.image);
+        final file = await storage.getImageDataFromAssets(banner.imageUrl);
 // Upload Image and Get its URL
         final url =
-            await storage.uploadImageData('Categories', file, category.name);
-// Assign URL to Category. image attribute
-        category.image = url;
-// Store Category in Firestore
-        await _db
-            .collection("Categories")
-            .doc(category.id)
-            .set(category.toJson());
+            await storage.uploadImageData('Banners', file, banner.targetScreen);
+// Assign URL to Banner. image attribute
+        banner.imageUrl = url;
+// Store Banners in Firestore
+        await _db.collection("Banners").doc().set(banner.toJson());
       }
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;
