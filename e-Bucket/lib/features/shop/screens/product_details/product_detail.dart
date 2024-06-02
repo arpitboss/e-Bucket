@@ -13,8 +13,12 @@ import 'package:t_store/features/shop/screens/product_reviews/product_reviews.da
 import 'package:t_store/utils/constants/colors.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 
+import '../../models/product_model.dart';
+
 class ProductDetailsScreen extends StatelessWidget {
-  const ProductDetailsScreen({super.key});
+  const ProductDetailsScreen({super.key, required this.product});
+
+  final ProductModel product;
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +60,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   ),
                   ReadMoreText(
                     'datajfhsdjghsjfhslkfklsdhfklsdhflksghuggkggdhfldlghdfglhkksdhfklsdhfgkgggkjgj'
-                        'gkjgkgkgjkgjkghguiguhohouighiuhhjfhfjvjguhuoighigkjhgigdhkhdfgjhsfdvhsdfklhsfdlhvsdlfkghsfd ',
+                    'gkjgkgkgjkgjkghguiguhohouighiuhhjfhfjvjguhuoighigkjhgigdhkhdfgjhsfdvhsdfklhsfdlhvsdlfkghsfd ',
                     trimLines: 2,
                     trimCollapsedText: 'show more',
                     trimExpandedText: 'show less',
@@ -82,7 +86,9 @@ class ProductDetailsScreen extends StatelessWidget {
                         showActionButton: false,
                       ),
                       IconButton(
-                          onPressed: () {Get.to(()=>const ProductReviewsScreen());},
+                          onPressed: () {
+                            Get.to(() => const ProductReviewsScreen());
+                          },
                           icon: const Icon(
                             Iconsax.arrow_right_3,
                             size: 18,

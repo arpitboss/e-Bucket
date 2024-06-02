@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:t_store/common/widgets/appbar/appbar.dart';
 import 'package:t_store/data/repositories/banners/banners_repository.dart';
+import 'package:t_store/data/repositories/products/product_repository.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 
 import '../../../../common/widgets/list_tiles/settings_menu_tile.dart';
@@ -15,6 +16,7 @@ class UploadSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     final categoryRepo = CategoryRepository();
     final bannerRepo = BannerRepository();
+    final productRepo = ProductRepository();
     return Scaffold(
       appBar: const ReusableAppBar(
         title: Text('Upload Data'),
@@ -59,7 +61,7 @@ class UploadSettings extends StatelessWidget {
                   Iconsax.arrow_up_1,
                 ),
                 onPressed: () {
-                  // categoryRepo.uploadDummyCategories(DummyData.categories);
+                  productRepo.uploadDummyProducts(DummyData.products);
                 },
               ),
             ), // TSettings MenuTile

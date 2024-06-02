@@ -20,7 +20,7 @@ class PromoSlider extends StatelessWidget {
 
     return Obx(() {
       if (controller.isLoading.value) {
-        return const ShimmerEffect(width: double.infinity, height: 200);
+        return const ShimmerEffect(width: double.infinity, height: 190);
       }
       if (controller.banners.isEmpty) {
         return const Center(child: Text('No Data Found!'));
