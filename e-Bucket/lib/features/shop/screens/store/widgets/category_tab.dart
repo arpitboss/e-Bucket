@@ -7,7 +7,7 @@ import 'package:t_store/features/shop/models/category_model.dart';
 import '../../../../../common/widgets/brands/brand_show_case.dart';
 import '../../../../../utils/constants/image_strings.dart';
 import '../../../../../utils/constants/sizes.dart';
-import '../../../controllers/product_controller.dart';
+import '../../../controllers/product/product_controller.dart';
 
 class CategoryTab extends StatelessWidget {
   const CategoryTab({super.key, required this.category});

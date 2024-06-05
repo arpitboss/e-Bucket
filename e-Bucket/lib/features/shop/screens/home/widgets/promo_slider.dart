@@ -29,13 +29,15 @@ class PromoSlider extends StatelessWidget {
         children: [
           CarouselSlider(
             items: controller.banners
-                .map((banner) => RoundedImage(
-                      imageUrl: banner.imageUrl,
-                      isNetworkImage: true,
-                      onPressed: () {
-                        Get.toNamed(banner.targetScreen);
-                      },
-                    ))
+                .map(
+                  (banner) => RoundedImage(
+                    imageUrl: banner.imageUrl,
+                    isNetworkImage: true,
+                    onPressed: () {
+                      Get.toNamed(banner.targetScreen);
+                    },
+                  ),
+                )
                 .toList(),
             options: CarouselOptions(
               // autoPlay: true,

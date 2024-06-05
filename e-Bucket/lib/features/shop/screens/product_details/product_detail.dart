@@ -11,6 +11,7 @@ import 'package:t_store/features/shop/screens/product_details/widgets/product_me
 import 'package:t_store/features/shop/screens/product_details/widgets/product_rating.dart';
 import 'package:t_store/features/shop/screens/product_reviews/product_reviews.dart';
 import 'package:t_store/utils/constants/colors.dart';
+import 'package:t_store/utils/constants/enums.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 
 import '../../models/product_model.dart';
@@ -27,7 +28,9 @@ class ProductDetailsScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const ProductImageSlider(),
+            ProductImageSlider(
+              product: product,
+            ),
             Padding(
               padding: const EdgeInsets.only(
                   left: TSizes.defaultSpace,
@@ -36,11 +39,17 @@ class ProductDetailsScreen extends StatelessWidget {
               child: Column(
                 children: [
                   const RatingAndShare(),
-                  const ProductMetaData(),
-                  const ProductAttributes(),
-                  const SizedBox(
-                    height: TSizes.spaceBtwSections,
+                  ProductMetaData(
+                    product: product,
                   ),
+                  if (product.productType == ProductType.variable.toString())
+                    ProductAttributes(
+                      product: product,
+                    ),
+                  if (product.productType == ProductType.variable.toString())
+                    const SizedBox(
+                      height: TSizes.spaceBtwSections,
+                    ),
                   SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
@@ -59,8 +68,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     height: TSizes.spaceBtwItems,
                   ),
                   ReadMoreText(
-                    'datajfhsdjghsjfhslkfklsdhfklsdhflksghuggkggdhfldlghdfglhkksdhfklsdhfgkgggkjgj'
-                    'gkjgkgkgjkgjkghguiguhohouighiuhhjfhfjvjguhuoighigkjhgigdhkhdfgjhsfdvhsdfklhsfdlhvsdlfkghsfd ',
+                    product.description ?? '',
                     trimLines: 2,
                     trimCollapsedText: 'show more',
                     trimExpandedText: 'show less',
