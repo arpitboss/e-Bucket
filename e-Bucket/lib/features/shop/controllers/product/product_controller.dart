@@ -30,6 +30,16 @@ class ProductController extends GetxController {
     }
   }
 
+  Future<List<ProductModel>> fetchAllFeaturedProducts() async {
+    try {
+      final products = await productRepository.getFeaturedProducts();
+      return products;
+    } catch (e) {
+      Loaders.errorSnackBar(title: 'Oh No!', message: e.toString());
+      return [];
+    }
+  }
+
   String getProductPrice(ProductModel product) {
     double smallestPrice = double.infinity;
     double largestPrice = 0.0;
