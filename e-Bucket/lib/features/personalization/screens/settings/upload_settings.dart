@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:t_store/common/widgets/appbar/appbar.dart';
 import 'package:t_store/data/repositories/banners/banners_repository.dart';
+import 'package:t_store/data/repositories/brands/brand_repository.dart';
 import 'package:t_store/data/repositories/products/product_repository.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 
@@ -17,6 +18,7 @@ class UploadSettings extends StatelessWidget {
     final categoryRepo = CategoryRepository();
     final bannerRepo = BannerRepository();
     final productRepo = ProductRepository();
+    final brandRepo = BrandRepository();
     return Scaffold(
       appBar: const ReusableAppBar(
         title: Text('Upload Data'),
@@ -47,7 +49,7 @@ class UploadSettings extends StatelessWidget {
                   Iconsax.arrow_up_1,
                 ),
                 onPressed: () {
-                  // categoryRepo.uploadDummyCategories(DummyData.categories);
+                  brandRepo.uploadDummyBrands(DummyData.brands);
                 },
               ),
               subtitle: '',

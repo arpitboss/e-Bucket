@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:t_store/features/shop/models/brand_model.dart';
 import 'package:t_store/utils/constants/image_strings.dart';
 import 'package:t_store/utils/helpers/helper_functions.dart';
+
 import '../../../../utils/constants/colors.dart';
 import '../../../../utils/constants/enums.dart';
 import '../../../../utils/constants/sizes.dart';
@@ -8,19 +10,21 @@ import '../custom_shapes/container/circular_container.dart';
 import '../images/circular_image.dart';
 import '../texts/brand_title_text_with_verified_icon.dart';
 
-
 class BrandCard extends StatelessWidget {
   const BrandCard({
     super.key,
     this.showBorder = true,
     this.padding = const EdgeInsets.all(TSizes.sm),
     this.bgColor = Colors.transparent,
-    this.image=TImages.creditCard,
-    this.title='Nike',
-    this.subTitle='256 products',
-    this.brandTextSize = TextSizes.large, this.onTap,
+    this.image = TImages.creditCard,
+    this.title = 'Nike',
+    this.subTitle = '256 products',
+    this.brandTextSize = TextSizes.large,
+    this.onTap,
+    required this.brand,
   });
 
+  final BrandModel brand;
   final bool showBorder;
   final void Function()? onTap;
   final EdgeInsetsGeometry padding;
@@ -42,10 +46,10 @@ class BrandCard extends StatelessWidget {
           children: [
             Flexible(
               child: CircularImage(
-                isNetworkImage: false,
+                isNetworkImage: true,
                 backgroundColor: Colors.transparent,
                 overlayColor: dark ? TColors.white : TColors.black,
-                image: image,
+                image: brand.image,
               ),
             ),
             const SizedBox(
@@ -57,11 +61,11 @@ class BrandCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   BrandTitleTextWithVerifiedIcon(
-                    title: title,
+                    title: brand.name,
                     brandTextSize: brandTextSize,
                   ),
                   Text(
-                    subTitle,
+                    '${brand.productsCount ?? 0} products',
                     overflow: TextOverflow.ellipsis,
                     style: Theme.of(context).textTheme.labelMedium,
                   ),
