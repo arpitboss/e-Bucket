@@ -62,6 +62,27 @@ class ProductRepository extends GetxController {
     }
   }
 
+  Future<List<ProductModel>> getFavoriteProducts(
+      List<String> productIds) async {
+    try {
+      final snapshot = await _db
+          .collection('Products')
+          .where(FieldPath.documentId, whereIn: productIds)
+          .get();
+
+      final List<ProductModel> productsList = snapshot.docs
+          .map((querySnapshot) => ProductModel.fromSnapshot(querySnapshot))
+          .toList();
+      return productsList;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
   Future<List<ProductModel>> getProductsForBrand(
       {required String brandId, int limit = -1}) async {
     try {
@@ -77,6 +98,41 @@ class ProductRepository extends GetxController {
               .get();
 
       final products = querySnapshot.docs
+          .map((doc) => ProductModel.fromSnapshot(doc))
+          .toList();
+      return products;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
+  Future<List<ProductModel>> getProductsForCategory(
+      {required String categoryId, int limit = -1}) async {
+    try {
+      QuerySnapshot productCategoryQuery = limit == -1
+          ? await _db
+              .collection('ProductCategory')
+              .where('categoryId', isEqualTo: categoryId)
+              .get()
+          : await _db
+              .collection('ProductCategory')
+              .where('categoryId', isEqualTo: categoryId)
+              .limit(limit)
+              .get();
+
+      List<String> productIds = productCategoryQuery.docs
+          .map((doc) => doc['productId'] as String)
+          .toList();
+
+      final productsQuery = await _db
+          .collection('Products')
+          .where(FieldPath.documentId, whereIn: productIds)
+          .get();
+      List<ProductModel> products = productsQuery.docs
           .map((doc) => ProductModel.fromSnapshot(doc))
           .toList();
       return products;

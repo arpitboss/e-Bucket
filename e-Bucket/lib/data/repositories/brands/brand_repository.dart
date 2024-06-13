@@ -29,6 +29,37 @@ class BrandRepository extends GetxController {
     }
   }
 
+  Future<List<BrandModel>> getBrandForCategory(String categoryId) async {
+    try {
+      QuerySnapshot brandCategoryQuery = await _db
+          .collection('BrandCategory')
+          .where('categoryId', isEqualTo: categoryId)
+          .get();
+
+      List<String> brandIds = brandCategoryQuery.docs
+          .map((doc) => doc['brandId'] as String)
+          .toList();
+
+      final brandsQuery = await _db
+          .collection('Brands')
+          .where(FieldPath.documentId, whereIn: brandIds)
+          .limit(2)
+          .get();
+
+      List<BrandModel> brands =
+          brandsQuery.docs.map((doc) => BrandModel.fromSnapshot(doc)).toList();
+      return brands;
+    } on FirebaseException catch (e) {
+      throw TFirebaseException(e.code).message;
+    } on FormatException catch (_) {
+      throw const FormatException();
+    } on PlatformException catch (e) {
+      throw TPlatformException(e.code).message;
+    } catch (e) {
+      throw 'Something went wrong. Please try again';
+    }
+  }
+
   Future<void> uploadDummyBrands(List<BrandModel> brands) async {
     try {
 // Upload all the Banners along with their Images
@@ -39,11 +70,11 @@ class BrandRepository extends GetxController {
 // Get ImageData link from the local assets
         final file = await storage.getImageDataFromAssets(brand.image);
 // Upload Image and Get its URL
-        final url = await storage.uploadImageData('Banners', file, brand.id);
+        final url = await storage.uploadImageData('Brands', file, brand.id);
 // Assign URL to Banner. image attribute
         brand.image = url;
 // Store Banners in Firestore
-        await _db.collection("Banners").doc().set(brand.toJson());
+        await _db.collection("Brands").doc().set(brand.toJson());
       }
     } on FirebaseException catch (e) {
       throw TFirebaseException(e.code).message;

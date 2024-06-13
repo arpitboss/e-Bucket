@@ -1,8 +1,10 @@
 import 'package:get/get.dart';
 import 'package:t_store/data/repositories/categories/categories_repository.dart';
+import 'package:t_store/data/repositories/products/product_repository.dart';
 import 'package:t_store/features/shop/models/category_model.dart';
 
 import '../../../utils/popups/loaders.dart';
+import '../models/product_model.dart';
 
 class CategoryController extends GetxController {
   static CategoryController get instance => Get.find();
@@ -34,5 +36,23 @@ class CategoryController extends GetxController {
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<List<CategoryModel>> getSubCategories(String categoryId) async {
+    try {
+      final subCategories =
+          await _categoryRepository.getSubCategories(categoryId);
+      return subCategories;
+    } catch (e) {
+      Loaders.errorSnackBar(title: 'Oh No!', message: e.toString());
+      return [];
+    }
+  }
+
+  Future<List<ProductModel>> getCategoryProducts(
+      {required String categoryId, int limit = 4}) async {
+    final products = await ProductRepository.instance
+        .getProductsForCategory(categoryId: categoryId);
+    return products;
   }
 }

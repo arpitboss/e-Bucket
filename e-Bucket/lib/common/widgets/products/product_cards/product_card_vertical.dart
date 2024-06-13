@@ -4,6 +4,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:t_store/common/styles/shadows.dart';
 import 'package:t_store/common/widgets/custom_shapes/container/circular_container.dart';
 import 'package:t_store/common/widgets/images/rounded_image.dart';
+import 'package:t_store/common/widgets/products/favorite_icon/favorite_icon.dart';
 import 'package:t_store/features/shop/controllers/product/product_controller.dart';
 import 'package:t_store/features/shop/models/product_model.dart';
 import 'package:t_store/features/shop/screens/product_details/product_detail.dart';
@@ -12,7 +13,6 @@ import 'package:t_store/utils/constants/enums.dart';
 import 'package:t_store/utils/constants/sizes.dart';
 import 'package:t_store/utils/helpers/helper_functions.dart';
 
-import '../../icons/circular_icon.dart';
 import '../../texts/brand_title_text_with_verified_icon.dart';
 import '../../texts/product_price_text.dart';
 import '../../texts/product_title_text.dart';
@@ -73,14 +73,12 @@ class ProductCardVertical extends StatelessWidget {
                         ),
                       ),
                     ),
-                  const Positioned(
-                    top: 0,
-                    right: 0,
-                    child: CircularIcon(
-                      color: Colors.red,
-                      icon: Iconsax.heart5,
-                    ),
-                  ),
+                  Positioned(
+                      top: 0,
+                      right: 0,
+                      child: FavoriteIcon(
+                        productId: product.id,
+                      )),
                 ],
               ),
             ),
